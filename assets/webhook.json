@@ -1,0 +1,99 @@
+{
+  "identifier": "leanix",
+  "title": "leanIX",
+  "icon": "Alert",
+  "enabled": true,
+  "mappings": [
+    {
+      "blueprint": "component",
+      "filter": ".body.type == 'ITComponent'",
+      "entity": {
+        "identifier": ".body.id",
+        "title": ".body.displayName",
+        "properties": {
+          "alias": ".body.alias",
+          "description": ".body.description",
+          "incident_manager": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Administrator\") | .node.user.email)",
+          "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
+          "component_mentor": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Component Mentor\") | .node.user.email)",
+          "lead_component_mentor": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Lead Component Mentor\") | .node.user.email)",
+          "administrator": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Administrator\") | .node.user.email)",
+          "documentation": ".body.documents.edges | map(select(.node.documentType == \"documentation\") | .node.url)",
+          "source_repository": ".body.documents.edges | map(select(.node.documentType == \"information\") | .node.url)"
+        }
+      }
+    },
+    {
+      "blueprint": "provider",
+      "filter": ".body.type == 'Provider'",
+      "entity": {
+        "identifier": ".body.id",
+        "title": ".body.displayName",
+        "relations": {
+          "components": ".body.relProviderToITComponent.edges | [.[].node.factSheet.id | select(. != null)]"
+        }
+      }
+    },
+    {
+      "blueprint": "system",
+      "filter": ".body.type == 'Application'",
+      "entity": {
+        "identifier": ".body.id | tostring",
+        "title": ".body.displayName | tostring",
+        "properties": {
+          "alias": ".body.alias",
+          "description": ".body.description",
+          "documentation": ".body.documents.edges | map(select(.node.documentType == \"documentation\") | .node.url)",
+          "business_criticality": ".body.businessCriticality | gsub(\"(?<=[a-z])(?=[A-Z])\"; \" \") | \"\\(.[0:1] | ascii_upcase)\\(.[1:] | ascii_downcase)\"",
+          "enterprise_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Enterprise Architect\") | .node.user.email)",
+          "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
+          "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Business Owner\") | .node.user.email)"
+        },
+        "relations": {
+          "components": ".body.relApplicationToITComponent.edges | [.[].node.factSheet.id | select(. != null)]",
+          "business_service": ".body.relApplicationToBusinessCapability.edges | [.[].node.factSheet.id | select(. != null)]"
+        }
+      }
+    },
+    {
+      "blueprint": "business_service",
+      "filter": ".body.type == 'BusinessCapability' and .body.level == 3",
+      "entity": {
+        "identifier": ".body.id",
+        "title": ".body.displayName",
+        "properties": {
+          "description": ".body.description",
+          "solution_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Solution Architect\") | .node.user.email)"
+        },
+        "relations": {
+          "domain": ".body.relToParent.edges | map(.node.factSheet.id | select(. != null))[0]",
+          "product": ".body.tags | map(select(.name == \"Product\") | .name)"
+        }
+      }
+    },
+    {
+      "blueprint": "domain",
+      "filter": ".body.type == 'BusinessCapability' and (.body.level == 1 or .body.level == 2)",
+      "entity": {
+        "identifier": ".body.id",
+        "title": ".body.displayName",
+        "properties": {
+          "domain_manager": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Solution Architect\") | .node.user.email)",
+          "description": ".body.description"
+        },
+        "relations": {
+          "parent": ".body.relToParent.edges | map(.node.factSheet.id | select(. != null))[0]"
+        }
+      }
+    },
+     {
+      "blueprint": "product",
+      "filter": ".body.type == 'BusinessCapability' and .body.level == 3",
+      "itemsToParse": ".body.relBusinessCapabilityToApplication.edges | .node.[].factSheet.tags[].name",
+      "entity": {
+        "identifier": "$item",
+        "title": "$item"
+      }
+    }
+  ]
+}

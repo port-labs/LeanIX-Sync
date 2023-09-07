@@ -1,0 +1,353 @@
+[
+  {
+    "identifier": "component",
+    "description": "A generic component (micro-service, framework, etc.) that is used for implementing a software system.",
+    "title": "Component",
+    "icon": "Microservice",
+    "schema": {
+      "properties": {
+        "alias": {
+          "title": "Alias",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "format": "markdown"
+        },
+        "incident_manager": {
+          "icon": "DefaultProperty",
+          "title": "Incident Manager",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "application_architect": {
+          "title": "Application Architect",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "component_mentor": {
+          "title": "Component Mentor",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "lead_component_mentor": {
+          "title": "Lead Component Mentor",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "administrator": {
+          "title": "Administrator",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          },
+          "icon": "DefaultProperty"
+        },
+        "documentation": {
+          "title": "Documentation",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "url"
+          }
+        },
+        "source_repository": {
+          "title": "Source Repository",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "url"
+          }
+        }
+      },
+      "required": []
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/ITComponent/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
+      }
+    },
+    "relations": {}
+  },
+  {
+    "identifier": "provider",
+    "title": "Provider",
+    "icon": "TwoUsers",
+    "schema": {
+      "properties": {}
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/Provider/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
+      }
+    },
+    "relations": {
+      "components": {
+        "title": "Components",
+        "target": "component",
+        "required": false,
+        "many": true
+      }
+    }
+  },
+  {
+    "identifier": "domain",
+    "description": "A business domain (capability) of an enterprise.",
+    "title": "Domain",
+    "icon": "TwoUsers",
+    "schema": {
+      "properties": {
+        "domain_manager": {
+          "title": "Domain Manager",
+          "description": "The responsible person for a domain/subdomain.",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "description": {
+          "title": "Description",
+          "description": "A free form description of a domain/subdomain.",
+          "type": "string",
+          "format": "markdown",
+          "icon": "DefaultProperty"
+        }
+      },
+      "required": []
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/BusinessCapability/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
+      }
+    },
+    "relations": {
+      "parent": {
+        "title": "Parent",
+        "description": "Parent of the subdomain.",
+        "target": "domain",
+        "required": false,
+        "many": false
+      }
+    }
+  },
+  {
+    "identifier": "product",
+    "description": "A complete portfolio of services and software systems covering a specific region.",
+    "title": "Product",
+    "icon": "Service",
+    "schema": {
+      "properties": {
+        "product_manager": {
+          "title": "Product Manager",
+          "description": "The responsible person for a product.",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        }
+      },
+      "required": []
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {},
+    "relations": {}
+  },
+  {
+    "identifier": "business_service",
+    "description": "A high level business service delivered by diverse set of software systems.",
+    "title": "Business Service",
+    "icon": "Service",
+    "schema": {
+      "properties": {
+        "solution_architect": {
+          "title": "Solution Architect",
+          "description": "The solution architect responsible for a business service.",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "format": "markdown",
+          "icon": "DefaultProperty"
+        }
+      },
+      "required": []
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/BusinessCapability/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
+      }
+    },
+    "relations": {
+      "domain": {
+        "title": "domain",
+        "target": "domain",
+        "required": false,
+        "many": false
+      },
+      "product": {
+        "title": "product",
+        "target": "product",
+        "required": false,
+        "many": false
+      }
+    }
+  },
+  {
+    "identifier": "system",
+    "description": "This represents an application in LeanIX EAM.",
+    "title": "System",
+    "icon": "Service",
+    "schema": {
+      "properties": {
+        "alias": {
+          "title": "Alias",
+          "description": "Abbreviated name of a system.",
+          "type": "string",
+          "icon": "DefaultProperty"
+        },
+        "description": {
+          "icon": "DefaultProperty",
+          "title": "Description",
+          "description": "Brief description of a system. ",
+          "type": "string",
+          "format": "markdown"
+        },
+        "documentation": {
+          "title": "Documentation",
+          "description": "Links toward various external documentations including diagrams.",
+          "icon": "Link",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "url"
+          }
+        },
+        "business_criticality": {
+          "title": "Business Criticality",
+          "description": "Score about the importance of this application for the business.",
+          "type": "string",
+          "enum": [
+            "Mission critical",
+            "Business critical",
+            "Business operational",
+            "Administrative service"
+          ],
+          "enumColors": {
+            "Mission critical": "lightGray",
+            "Business critical": "lightGray",
+            "Business operational": "lightGray",
+            "Administrative service": "lightGray"
+          },
+          "icon": "DefaultProperty"
+        },
+        "enterprise_architect": {
+          "title": "Enterprise Architect",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "application_architect": {
+          "title": "Application Architect",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "business_owner": {
+          "title": "Business Owner",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        }
+      },
+      "required": []
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/Application/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
+      }
+    },
+    "relations": {
+      "components": {
+        "title": "Components",
+        "description": "A set of components implementing a system.",
+        "target": "component",
+        "required": false,
+        "many": true
+      },
+      "business_service": {
+        "title": "business_service",
+        "target": "business_service",
+        "required": false,
+        "many": false
+      }
+    }
+  }
+]
