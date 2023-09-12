@@ -12,16 +12,7 @@ queries = [
         edges {
           node {
             ... on Application {
-              rev
               type
-              naFields
-              permissions {
-                self
-                create
-                read
-                update
-                delete
-              }
               displayName
               name
               description
@@ -148,6 +139,15 @@ queries = [
                     }
                 }
               }
+              relApplicationToBusinessCapability {
+                edges {
+                    node {
+                        factSheet {
+                            id
+                        }
+                    }
+                }
+              }
               documents {
                 edges {
                   node {
@@ -258,6 +258,15 @@ queries = [
                   }
                 }
               }
+              tags {
+                id
+                name
+                description
+                color
+                status
+                factSheetCount
+                deletable
+              }
             }
           }
         }
@@ -290,6 +299,15 @@ queries = [
                         node {
                             factSheet {
                                 id
+                                tags {
+                                    id
+                                    name
+                                    description
+                                    color
+                                    status
+                                    factSheetCount
+                                    deletable
+                                }
                             }
                         }
                     }
@@ -317,6 +335,15 @@ queries = [
                             }
                         }
                     }
+                }
+                tags {
+                    id
+                    name
+                    description
+                    color
+                    status
+                    factSheetCount
+                    deletable
                 }
             }
         }

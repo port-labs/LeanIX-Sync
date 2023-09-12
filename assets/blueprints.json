@@ -72,6 +72,14 @@
             "type": "string",
             "format": "url"
           }
+        },
+        "type": {
+          "title": "Type",
+          "type": "string",
+          "enum": [
+            "3rd. party",
+            "Internal"
+          ]
         }
       },
       "required": []
@@ -240,7 +248,7 @@
         "title": "product",
         "target": "product",
         "required": false,
-        "many": false
+        "many": true
       }
     }
   },
@@ -290,6 +298,16 @@
             "Business operational": "lightGray",
             "Administrative service": "lightGray"
           },
+          "icon": "DefaultProperty"
+        },
+        "business_confidentiality": {
+          "title": "Business Confidentiality",
+          "type": "string",
+          "icon": "DefaultProperty"
+        },
+        "business_integrity": {
+          "title": "Business Integrity",
+          "type": "string",
           "icon": "DefaultProperty"
         },
         "enterprise_architect": {
@@ -346,7 +364,7 @@
         "title": "business_service",
         "target": "business_service",
         "required": false,
-        "many": false
+        "many": true
       }
     }
   }

@@ -17,8 +17,8 @@ leanix_host = 'https://eu.leanix.net'
 
 def handle_request_error(e):
     if e.is_error:
-        print(e.response.status_code)
-        print(e.response.text)
+        print(e.status_code)
+        print(e.text)
     e.raise_for_status()
 
 

@@ -19,7 +19,8 @@
           "lead_component_mentor": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Lead Component Mentor\") | .node.user.email)",
           "administrator": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Administrator\") | .node.user.email)",
           "documentation": ".body.documents.edges | map(select(.node.documentType == \"documentation\") | .node.url)",
-          "source_repository": ".body.documents.edges | map(select(.node.documentType == \"information\") | .node.url)"
+          "source_repository": ".body.documents.edges | map(select(.node.documentType == \"information\") | .node.url)",
+          "type": ".body.tags[0].name"
         }
       }
     },
@@ -45,6 +46,8 @@
           "description": ".body.description",
           "documentation": ".body.documents.edges | map(select(.node.documentType == \"documentation\") | .node.url)",
           "business_criticality": ".body.businessCriticality | gsub(\"(?<=[a-z])(?=[A-Z])\"; \" \") | \"\\(.[0:1] | ascii_upcase)\\(.[1:] | ascii_downcase)\"",
+          "business_confidentiality": ".body.BusinessConfidentialityCriticality",
+          "business_integrity": ".body.BusinessIntegrityConfidentiality",
           "enterprise_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Enterprise Architect\") | .node.user.email)",
           "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
           "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Business Owner\") | .node.user.email)"
@@ -67,7 +70,7 @@
         },
         "relations": {
           "domain": ".body.relToParent.edges | map(.node.factSheet.id | select(. != null))[0]",
-          "product": ".body.tags | map(select(.name == \"Product\") | .name)"
+          "product": ".body.relBusinessCapabilityToApplication.edges | map(.node.factSheet.tags) | flatten | map(.id)"
         }
       }
     },
@@ -89,10 +92,10 @@
      {
       "blueprint": "product",
       "filter": ".body.type == 'BusinessCapability' and .body.level == 3",
-      "itemsToParse": ".body.relBusinessCapabilityToApplication.edges | .node.[].factSheet.tags[].name",
+      "itemsToParse": ".body.relBusinessCapabilityToApplication.edges | map(.node.factSheet.tags) | flatten",
       "entity": {
-        "identifier": "$item",
-        "title": "$item"
+        "identifier": ".item.id",
+        "title": ".item.name"
       }
     }
   ]
