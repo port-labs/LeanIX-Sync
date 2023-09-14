@@ -20,7 +20,7 @@
           "administrator": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Administrator\") | .node.user.email)",
           "documentation": ".body.documents.edges | map(select(.node.documentType == \"documentation\") | .node.url)",
           "source_repository": ".body.documents.edges | map(select(.node.documentType == \"information\") | .node.url)",
-          "type": ".body.tags[0].name"
+          "type": ".body.tags | if any(.name == \"Internal\") then \"Internal\" else \"3rd. party\""
         }
       }
     },
