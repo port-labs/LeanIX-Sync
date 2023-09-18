@@ -35,6 +35,7 @@ python clean.py
 
 You can use the following environment variables to change the behavior of the script:
 
+- DELETE_ENTITIES - By default the script is deleting the entities for the blueprints specified in it to disable the entities deletion set this environment variable to 0. (disabling this feature will also disable the blueprint deletion)
 - DELETE_BLUEPRINTS - By default the script is deleting the blueprints specified in it to disable the blueprint deletion set this environment variable to 0
 - DELETE_WEBHOOK - By default the script does not delete the webhook integration specified in it to enable the webhook deletion set this environment variable to 1
 

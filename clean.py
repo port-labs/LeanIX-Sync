@@ -10,8 +10,8 @@ sema = threading.Semaphore(value=MAX_THREADS)
 CLIENT_ID = os.environ["PORT_CLIENT_ID"]
 CLIENT_SECRET = os.environ["PORT_CLIENT_SECRET"]
 
+DELETE_ENTITIES_FLAG = bool(os.getenv("DELETE_ENTITIES", 1))
 DELETE_BLUEPRINTS_FLAG = bool(os.getenv("DELETE_BLUEPRINTS", 1))
-
 DELETE_WEBHOOK_FLAG = bool(os.getenv("DELETE_WEBHOOK", 0))
 
 credentials = {"clientId": CLIENT_ID, "clientSecret": CLIENT_SECRET}
@@ -97,7 +97,9 @@ blueprints = ["component",
               "business_service",
               "system"]
 
-delete_all(blueprints)
-delete_leanix_webhook("leanix-eam")
+if DELETE_ENTITIES_FLAG:
+    delete_all(blueprints)
+if DELETE_ENTITIES_FLAG:
+    delete_leanix_webhook("leanix-eam")
 
 print("Done deleting")
