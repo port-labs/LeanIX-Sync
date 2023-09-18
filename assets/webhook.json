@@ -1,6 +1,6 @@
 {
-  "identifier": "leanix",
-  "title": "leanIX",
+  "identifier": "leanix-eam",
+  "title": "LeanIX EAM",
   "icon": "Alert",
   "enabled": true,
   "mappings": [

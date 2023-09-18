@@ -7,14 +7,8 @@ the catalog.
 ## Installation & Run
 
 !!! Make sure that you have python 3.6 or higher installed.
-!!! Make sure that you fill the required configuration in the script.
-
-```python
-port_client_id = 'PORT_CLIENT_ID'
-port_client_secret = 'PORT_CLIENT_SECRET'
-
-leanix_client_secret = 'LEANIX_SECRET'
-```
+!!! Make sure to set `PORT_CLIENT_ID` and `PORT_CLIENT_SECRET` environment variable with your port credentials.
+!!! Make sure to set `LEANIX_SECRET` environment variable with your LeanIX secret.
 
 ```bash
 pip install -r requirements.txt
@@ -24,7 +18,7 @@ python sync.py
 
 ## How to clear and start over
 
-!!! Make sure to fill in Port `client_id` and `client_secret` in the `clean.py` script.
+!!! Make sure to set `PORT_CLIENT_ID` and `PORT_CLIENT_SECRET` environment variable with your port credentials.
 
 To clear the data ingested into port you can use the `clean.py` python script to remove all the ingested data from the
 `sync.py` script.
@@ -36,6 +30,13 @@ pip install -r requirements.txt
 
 python clean.py
 ```
+
+### Flags
+
+You can use the following environment variables to change the behavior of the script:
+
+- DELETE_BLUEPRINTS - By default the script is deleting the blueprints specified in it to disable the blueprint deletion set this environment variable to 0
+- DELETE_WEBHOOK - By default the script does not delete the webhook integration specified in it to enable the webhook deletion set this environment variable to 1
 
 ## Q & A
 

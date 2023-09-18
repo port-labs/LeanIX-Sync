@@ -5,11 +5,12 @@ import httpx
 import jinja2
 from assets.queries import queries
 from tqdm.asyncio import tqdm_asyncio
+import os
 
-port_client_id = 'PORT_CLIENT_ID'
-port_client_secret = 'PORT_CLIENT_SECRET'
+port_client_id = os.environ["PORT_CLIENT_ID"]
+port_client_secret = os.environ["PORT_CLIENT_SECRET"]
 
-leanix_client_secret = 'LEANIX_SECRET'
+leanix_client_secret = os.environ["LEANIX_SECRET"]
 
 port_host = 'https://api.getport.io/v1'
 leanix_host = 'https://eu.leanix.net'
