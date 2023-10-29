@@ -1,4 +1,38 @@
 queries = [
+    # DATA_OBJECT_QUERY
+    """
+    query AllFactSheets {
+        allFactSheets(
+            after: "{{ end_cursor }}"
+            first: {{ page_size }}
+            filter: { facetFilters: [{ facetKey: "FactSheetTypes", keys: ["DataObject"] }] }
+        ) {
+            pageInfo {
+                endCursor
+                hasNextPage
+            }
+            totalCount
+            edges {
+                node {
+                    ... on DataObject {
+                        description
+                        displayName
+                        type
+                        lifecycle {
+                            phases {
+                                phase
+                                startDate
+                            }
+                        }
+                        dataClassificationDescription
+                        id
+                    }
+                }
+            }
+        }
+    }
+    """,
+
     # APPLICATION_QUERY
     """
     {
@@ -169,6 +203,51 @@ queries = [
     }
     """,
 
+    # INTERFACE_QUERY
+    """
+    query AllFactSheets {
+    allFactSheets(
+        after: "{{ end_cursor }}"
+        first: {{ page_size}}
+        filter: { facetFilters: [{ facetKey: "FactSheetTypes", keys: ["Interface"] }] }
+    ) {
+        pageInfo {
+            endCursor
+            hasNextPage
+        }
+        totalCount
+        edges {
+            node {
+                ... on Interface {
+                    description
+                    lifecycle {
+                        phases {
+                            phase
+                            startDate
+                        }
+                    }
+                    dataFlowDirection
+                    type
+                    frequency
+                    id
+                    displayName
+                    interfaceType
+                    relInterfaceToDataObject {
+                        edges {
+                            node {
+                                factSheet {
+                                    id
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+    """,
+
     # PROVIDER_QUERY
     """
     {
@@ -206,77 +285,166 @@ queries = [
     }
     """,
 
-    # COMPONENT_QUERY
+    # RESOURCE_QUERY
     """
-    {
-      allFactSheets(
+    query AllFactSheets {
+    allFactSheets(
         after: "{{ end_cursor }}"
         first: {{ page_size}}
-        filter: {
-          facetFilters: [{ facetKey: "FactSheetTypes", keys: ["ITComponent"] }]
-        }
-      ) {
-        edges {
-          node {
-            ... on ITComponent {
-              alias
-              displayName
-              type
-              description
-              id
-              subscriptions {
-                edges {
-                  node {
-                    user {
-                      id
-                      userName
-                      email
-                      firstName
-                      lastName
-                      displayName
-                      technicalUser
-                      status
-                      role
-                    }
-                    roles {
-                      id
-                      name
-                      description
-                      comment
-                      subscriptionType
-                      restrictToFactSheetTypes
-                    }
-                  }
-                }
-              }
-              documents {
-                edges {
-                  node {
-                    name
-                    url
-                    documentType
-                  }
-                }
-              }
-              tags {
-                id
-                name
-                description
-                color
-                status
-                factSheetCount
-                deletable
-              }
-            }
-          }
-        }
+        filter: { facetFilters: [{ facetKey: "FactSheetTypes", keys: ["TechnicalStack"] }]}
+    ) {
         pageInfo {
-          endCursor
-          hasNextPage
+            endCursor
+            hasNextPage
         }
         totalCount
-      }
+        edges {
+            node {
+                ... on TechnicalStack {
+                    displayName
+                    id
+                    type
+                    lifecycle {
+                        phases {
+                            phase
+                            startDate
+                        }
+                    }
+                    relToParent {
+                        edges {
+                            node {
+                                id
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+""",
+
+    # COMPONENT_QUERY
+    """
+{
+    allFactSheets(
+        after: "{{ end_cursor }}"
+        first: {{ page_size}}
+        filter: { facetFilters: [{ facetKey: "FactSheetTypes", keys: ["ITComponent"] }] }
+    ) {
+        edges {
+            node {
+                ... on ITComponent {
+                    alias
+                    displayName
+                    type
+                    description
+                    id
+                    subscriptions {
+                        edges {
+                            node {
+                                user {
+                                    id
+                                    userName
+                                    email
+                                    firstName
+                                    lastName
+                                    displayName
+                                    technicalUser
+                                    status
+                                    role
+                                }
+                                roles {
+                                    id
+                                    name
+                                    description
+                                    comment
+                                    subscriptionType
+                                    restrictToFactSheetTypes
+                                }
+                            }
+                        }
+                    }
+                    documents {
+                        edges {
+                            node {
+                                name
+                                url
+                                documentType
+                            }
+                        }
+                    }
+                    tags {
+                        id
+                        name
+                        description
+                        color
+                        status
+                        factSheetCount
+                        deletable
+                    }
+                    category
+                    lifecycle {
+                        phases {
+                            phase
+                            startDate
+                        }
+                    }
+                    technicalSuitability
+                    relToRequires {
+                        edges {
+                            node {
+                                factSheet {
+                                    id
+                                    type
+                                }
+                            }
+                        }
+                    }
+                    relToSuccessor {
+                        edges {
+                            node {
+                                factSheet {
+                                    id
+                                }
+                            }
+                        }
+                    }
+                    relToPredecessor {
+                        edges {
+                            node {
+                                id
+                            }
+                        }
+                    }
+                    relITComponentToApplication {
+                        edges {
+                            node {
+                                factSheet {
+                                    id
+                                }
+                            }
+                        }
+                    }
+                    relITComponentToTechnologyStack {
+                        edges {
+                            node {
+                                factSheet {
+                                    id
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        pageInfo {
+            endCursor
+            hasNextPage
+        }
+        totalCount
+    }
+}
     """,
 
     # BUSINESS_CAPABILITY
