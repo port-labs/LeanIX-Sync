@@ -5,6 +5,89 @@
   "enabled": true,
   "mappings": [
     {
+      "blueprint": "data_objects",
+      "filter": ".body.type == 'DataObject'",
+      "entity": {
+        "identifier": ".body.id",
+        "title": ".body.displayName",
+        "properties": {
+          "description": ".body.description",
+          "lifecycle_status": ".body.lifecycle.phases | last | .phase",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_history": ".body.lifecycle"
+        }
+      }
+    },
+    {
+      "blueprint": "interface",
+      "filter": ".body.type == 'Interface'",
+      "entity": {
+        "identifier": ".body.id",
+        "title": ".body.displayName",
+        "properties": {
+          "description": ".body.description",
+          "lifecycle_status": ".body.lifecycle.phases | last | .phase",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_history": ".body.lifecycle",
+          "data_flow_direction": ".body.dataFlowDirection",
+          "type": ".body.interfaceType",
+          "frequency": ".body.frequency | if . != \"onDemand\" and . != \"realTime\" then \"scheduled\" else . end"
+        },
+        "relations": {
+          "data_objects": ".body.relInterfaceToDataObject.edges | map(.node.factSheet.id | select(. != null))[0]"
+        }
+      }
+    },
+    {
+      "blueprint": "resource",
+      "filter": ".body.type == 'TechnicalStack'",
+      "entity": {
+        "identifier": ".body.id",
+        "title": ".body.displayName",
+        "properties": {
+          "description": ".body.description",
+          "lifecycle_status": ".body.lifecycle.phases | last | .phase",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_history": ".body.lifecycle"
+        },
+        "relations": {
+          "parent": ".body.relToParent.edges | map(.node.factSheet.id | select(. != null))"
+        }
+      }
+    },
+    {
+      "blueprint": "system",
+      "filter": ".body.type == 'Application'",
+      "entity": {
+        "identifier": ".body.id | tostring",
+        "title": ".body.displayName | tostring",
+        "properties": {
+          "alias": ".body.alias",
+          "description": ".body.description",
+          "documentation": ".body.documents.edges | map(select(.node.documentType == \"documentation\") | .node.url)",
+          "business_criticality": ".body.businessCriticality | gsub(\"(?<=[a-z])(?=[A-Z])\"; \" \") | \"\\(.[0:1] | ascii_upcase)\\(.[1:] | ascii_downcase)\"",
+          "business_criticality_description": ".body.businessCriticalityDescription",
+          "business_confidentiality": ".body.BusinessConfidentialityCriticality",
+          "business_integrity": ".body.BusinessIntegrityConfidentiality",
+          "enterprise_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Enterprise Architect\") | .node.user.email)",
+          "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
+          "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Business Owner\") | .node.user.email)",
+          "lifecycle_status": ".body.lifecycle.phases | last | .phase",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_history": ".body.lifecycle",
+          "technical_fit": ".body.technicalSuitability",
+          "functional_fit": ".body.functionalSuitability",
+          "functional_fit_description": ".body.functionalSuitabilityDescription",
+          "GDPR_legal_basis": ".body.legalBasis",
+          "GDPR_processing_purpose": ".body.processingPurpose"
+        },
+        "relations": {
+          "consumes": ".body.relConsumerApplicationToInterface.edges | map(.node.factSheet.id | select(. != null))",
+          "provides": ".body.relProviderApplicationToInterface.edges | map(.node.factSheet.id | select(. != null))"
+        }
+      }
+    },
+    {
       "blueprint": "component",
       "filter": ".body.type == 'ITComponent'",
       "entity": {
@@ -14,13 +97,26 @@
           "alias": ".body.alias",
           "description": ".body.description",
           "incident_manager": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Administrator\") | .node.user.email)",
-          "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
           "component_mentor": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Component Mentor\") | .node.user.email)",
           "lead_component_mentor": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Lead Component Mentor\") | .node.user.email)",
           "administrator": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Administrator\") | .node.user.email)",
           "documentation": ".body.documents.edges | map(select(.node.documentType == \"documentation\") | .node.url)",
           "source_repository": ".body.documents.edges | map(select(.node.documentType == \"information\") | .node.url)",
-          "type": ".body.tags | if any(.name == \"Internal\") then \"Internal\" else \"3rd. party\""
+          "type": ".body.tags | if any(.name == \"Internal\") then \"Internal\" else \"3rd. party\"",
+          "category": ".body.category",
+          "lifecycle_status": ".body.lifecycle.phases | last | .phase",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_history": ".body.lifecycle",
+          "technical_fit": ".body.technicalSuitability",
+          "internal": ".body.tags | any(.name == \"Internal\")"
+        },
+        "relations": {
+          "consumes": ".body.relITComponentToInterface.edges | map(.node.factSheet.id | select(. != null))",
+          "provides": ".body.relITComponentToProvider.edges | map(.node.factSheet.id | select(. != null))",
+          "successors": ".body.relToSuccessor.edges | map(.node.factSheet.id | select(. != null))",
+          "resources": ".body.relITComponentToTechnologyStack.edges | map(.node.factSheet.id | select(. != null))",
+          "system": ".body.relITComponentToApplication.edges | map(.node.factSheet.id | select(. != null))[0]",
+          "requires": ".body.relToRequires.edges | map(.node.factSheet | select(.id != null and .type == \"ITComponent\") | .id)"
         }
       }
     },
@@ -36,29 +132,6 @@
       }
     },
     {
-      "blueprint": "system",
-      "filter": ".body.type == 'Application'",
-      "entity": {
-        "identifier": ".body.id | tostring",
-        "title": ".body.displayName | tostring",
-        "properties": {
-          "alias": ".body.alias",
-          "description": ".body.description",
-          "documentation": ".body.documents.edges | map(select(.node.documentType == \"documentation\") | .node.url)",
-          "business_criticality": ".body.businessCriticality | gsub(\"(?<=[a-z])(?=[A-Z])\"; \" \") | \"\\(.[0:1] | ascii_upcase)\\(.[1:] | ascii_downcase)\"",
-          "business_confidentiality": ".body.BusinessConfidentialityCriticality",
-          "business_integrity": ".body.BusinessIntegrityConfidentiality",
-          "enterprise_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Enterprise Architect\") | .node.user.email)",
-          "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
-          "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Business Owner\") | .node.user.email)"
-        },
-        "relations": {
-          "components": ".body.relApplicationToITComponent.edges | [.[].node.factSheet.id | select(. != null)]",
-          "business_service": ".body.relApplicationToBusinessCapability.edges | [.[].node.factSheet.id | select(. != null)]"
-        }
-      }
-    },
-    {
       "blueprint": "business_service",
       "filter": ".body.type == 'BusinessCapability' and .body.level == 3",
       "entity": {
@@ -70,7 +143,8 @@
         },
         "relations": {
           "domain": ".body.relToParent.edges | map(.node.factSheet.id | select(. != null))[0]",
-          "product": ".body.relBusinessCapabilityToApplication.edges | map(.node.factSheet.tags) | flatten | map(.id)"
+          "product": ".body.relBusinessCapabilityToApplication.edges | map(.node.factSheet.tags) | flatten | map(.id)",
+          "system": ".body.relBusinessCapabilityToApplication.edges | map(.node.factSheet.id | select(. != null))[0]"
         }
       }
     },
@@ -89,7 +163,7 @@
         }
       }
     },
-     {
+    {
       "blueprint": "product",
       "filter": ".body.type == 'BusinessCapability' and .body.level == 3",
       "itemsToParse": ".body.relBusinessCapabilityToApplication.edges | map(.node.factSheet.tags) | flatten",

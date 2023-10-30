@@ -84,7 +84,7 @@ async def ingest(semaphore, client, webhook_url: str, data):
     async with semaphore:
         await client.post(webhook_url, json=data)
         # Throttling the requests
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(0.3)
 
 
 def paginate_query(webhook_url: str, query: str):
