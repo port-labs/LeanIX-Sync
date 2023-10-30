@@ -51,7 +51,7 @@
           "lifecycle_history": ".body.lifecycle"
         },
         "relations": {
-          "parent": ".body.relToParent.edges | map(.node.factSheet.id | select(. != null))[0]"
+          "parent": ".body.relToParent.edges | map(.node.factSheet.id | select(. != null))"
         }
       }
     },
@@ -66,15 +66,24 @@
           "description": ".body.description",
           "documentation": ".body.documents.edges | map(select(.node.documentType == \"documentation\") | .node.url)",
           "business_criticality": ".body.businessCriticality | gsub(\"(?<=[a-z])(?=[A-Z])\"; \" \") | \"\\(.[0:1] | ascii_upcase)\\(.[1:] | ascii_downcase)\"",
+          "business_criticality_description": ".body.businessCriticalityDescription",
           "business_confidentiality": ".body.BusinessConfidentialityCriticality",
           "business_integrity": ".body.BusinessIntegrityConfidentiality",
           "enterprise_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Enterprise Architect\") | .node.user.email)",
           "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
-          "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Business Owner\") | .node.user.email)"
+          "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Business Owner\") | .node.user.email)",
+          "lifecycle_status": ".body.lifecycle.phases | last | .phase",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_history": ".body.lifecycle",
+          "technical_fit": ".body.technicalSuitability",
+          "functional_fit": ".body.functionalSuitability",
+          "functional_fit_description": ".body.functionalSuitabilityDescription",
+          "GDPR_legal_basis": ".body.legalBasis",
+          "GDPR_processing_purpose": ".body.processingPurpose"
         },
         "relations": {
-          "consumes": "[]",
-          "provides": "[]"
+          "consumes": ".body.relConsumerApplicationToInterface.edges | map(.node.factSheet.id | select(. != null))",
+          "provides": ".body.relProviderApplicationToInterface.edges | map(.node.factSheet.id | select(. != null))"
         }
       }
     },
@@ -102,9 +111,10 @@
           "internal": ".body.tags | any(.name == \"Internal\")"
         },
         "relations": {
-          "consumes": ".body.relToSuccessor.edges | map(.node.factSheet.id | select(. != null))",
-          "provides": ".body.relToPredecessor.edges | map(.node.factSheet.id | select(. != null))",
-          "resource": ".body.relITComponentToTechnologyStack.edges | map(.node.factSheet.id | select(. != null))[0]",
+          "consumes": ".body.relITComponentToInterface.edges | map(.node.factSheet.id | select(. != null))",
+          "provides": ".body.relITComponentToProvider.edges | map(.node.factSheet.id | select(. != null))",
+          "successors": ".body.relToSuccessor.edges | map(.node.factSheet.id | select(. != null))",
+          "resources": ".body.relITComponentToTechnologyStack.edges | map(.node.factSheet.id | select(. != null))",
           "system": ".body.relITComponentToApplication.edges | map(.node.factSheet.id | select(. != null))[0]",
           "requires": ".body.relToRequires.edges | map(.node.factSheet | select(.id != null and .type == \"ITComponent\") | .id)"
         }
@@ -153,7 +163,7 @@
         }
       }
     },
-     {
+    {
       "blueprint": "product",
       "filter": ".body.type == 'BusinessCapability' and .body.level == 3",
       "itemsToParse": ".body.relBusinessCapabilityToApplication.edges | map(.node.factSheet.tags) | flatten",

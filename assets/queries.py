@@ -109,7 +109,7 @@ queries = [
               updatedAt
               lxState
               qualitySeal
-              ApplicationLifecycle: lifecycle {
+              lifecycle {
                 asString
                 phases {
                   phase
@@ -182,6 +182,24 @@ queries = [
                     }
                 }
               }
+            relProviderApplicationToInterface {
+                edges {
+                    node {
+                        factSheet {
+                            id
+                        }
+                    }
+                }
+            }
+            relConsumerApplicationToInterface {
+                edges {
+                    node {
+                        factSheet {
+                            id
+                        }
+                    }
+                }
+            }
               documents {
                 edges {
                   node {
@@ -303,6 +321,7 @@ queries = [
                 ... on TechnicalStack {
                     displayName
                     id
+                    description
                     type
                     lifecycle {
                         phases {
@@ -313,7 +332,9 @@ queries = [
                     relToParent {
                         edges {
                             node {
-                                id
+                                factSheet {
+                                    id
+                                }
                             }
                         }
                     }
@@ -410,13 +431,6 @@ queries = [
                             }
                         }
                     }
-                    relToPredecessor {
-                        edges {
-                            node {
-                                id
-                            }
-                        }
-                    }
                     relITComponentToApplication {
                         edges {
                             node {
@@ -427,6 +441,28 @@ queries = [
                         }
                     }
                     relITComponentToTechnologyStack {
+                        edges {
+                            node {
+                                factSheet {
+                                    id
+                                }
+                            }
+                        }
+                    }
+                    relITComponentToProvider {
+                        totalCount
+                        skippedCount
+                        edges {
+                            node {
+                                factSheet {
+                                    id
+                                }
+                            }
+                        }
+                    }
+                    relITComponentToInterface {
+                        totalCount
+                        skippedCount
                         edges {
                             node {
                                 factSheet {

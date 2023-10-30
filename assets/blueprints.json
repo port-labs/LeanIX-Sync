@@ -1,442 +1,509 @@
 [
   {
-  "identifier": "data_objects",
-  "title": "Data Objects",
-  "icon": "Microservice",
-  "schema": {
-    "properties": {
-      "description": {
-        "title": "Description",
-        "type": "string",
-        "format": "markdown"
-      },
-      "lifecycle_status": {
-        "title": "Lifecycle Status",
-        "type": "string",
-        "enum": [
-          "plan",
-          "phaseIn",
-          "active",
-          "phaseOut",
-          "endOfLife"
-        ]
-      },
-      "lifecycle_date": {
-        "title": "Lifecycle Date",
-        "type": "string",
-        "format": "date-time"
-      },
-      "lifecycle_history": {
-        "title": "Lifecycle History",
-        "type": "object"
-      },
-      "data_classification": {
-        "title": "Data Classification",
-        "type": "string"
-      }
-    },
-    "required": []
-  },
-  "mirrorProperties": {},
-  "calculationProperties": {},
-  "relations": {}
-},
-  {
-  "identifier": "interface",
-  "title": "Interface",
-  "icon": "Microservice",
-  "schema": {
-    "properties": {
-      "description": {
-        "title": "Description",
-        "type": "string",
-        "format": "markdown"
-      },
-      "lifecycle_status": {
-        "title": "Lifecycle Status",
-        "type": "string",
-        "enum": [
-          "plan",
-          "phaseIn",
-          "active",
-          "phaseOut",
-          "endOfLife"
-        ]
-      },
-      "lifecycle_date": {
-        "title": "Lifecycle Date",
-        "type": "string",
-        "format": "date-time"
-      },
-      "lifecycle_history": {
-        "title": "Lifecycle History",
-        "type": "object"
-      },
-      "data_flow_direction": {
-        "title": "Data Flow Direction",
-        "type": "string",
-        "enum": [
-          "incoming",
-          "outgoing",
-          "biDirectional"
-        ]
-      },
-      "type": {
-        "title": "Type",
-        "type": "string",
-        "enum": [
-          "synchronous",
-          "asynchronous",
-          "batch"
-        ]
-      },
-      "frequency": {
-        "title": "Frequency",
-        "type": "string",
-        "enum": [
-          "onDemand",
-          "realtime",
-          "scheduled"
-        ]
-      }
-    },
-    "required": []
-  },
-  "mirrorProperties": {},
-  "calculationProperties": {},
-  "relations": {
-    "data_objects": {
-      "title": "Data Objects",
-      "target": "data_objects",
-      "required": false,
-      "many": true
-    }
-  }
-},
-  {
-  "identifier": "resource",
-  "title": "Resource",
-  "icon": "Microservice",
-  "schema": {
-    "properties": {
-      "description": {
-        "title": "Description",
-        "type": "string",
-        "format": "markdown"
-      },
-      "lifecycle_status": {
-        "title": "Lifecycle Status",
-        "type": "string",
-        "enum": [
-          "plan",
-          "phaseIn",
-          "active",
-          "phaseOut",
-          "endOfLife"
-        ]
-      },
-      "lifecycle_date": {
-        "type": "string",
-        "title": "Lifecycle Date",
-        "format": "date-time"
-      },
-      "lifecycle_history": {
-        "title": "Lifecycle History",
-        "type": "object"
-      }
-    },
-    "required": []
-  },
-  "mirrorProperties": {},
-  "calculationProperties": {},
-  "relations": {
-    "parent": {
-      "title": "Parent",
-      "target": "resource",
-      "required": false,
-      "many": false
-    }
-  }
-},
-  {
-  "identifier": "system",
-  "description": "This represents an application in LeanIX EAM.",
-  "title": "System",
-  "icon": "Service",
-  "schema": {
-    "properties": {
-      "alias": {
-        "title": "Alias",
-        "description": "Abbreviated name of a system.",
-        "type": "string",
-        "icon": "DefaultProperty"
-      },
-      "description": {
-        "icon": "DefaultProperty",
-        "title": "Description",
-        "description": "Brief description of a system. ",
-        "type": "string",
-        "format": "markdown"
-      },
-      "documentation": {
-        "title": "Documentation",
-        "description": "Links toward various external documentations including diagrams.",
-        "icon": "Link",
-        "type": "array",
-        "items": {
+    "identifier": "data_objects",
+    "title": "Data Objects",
+    "icon": "Microservice",
+    "schema": {
+      "properties": {
+        "description": {
+          "title": "Description",
           "type": "string",
-          "format": "url"
-        }
-      },
-      "business_criticality": {
-        "title": "Business Criticality",
-        "description": "Score about the importance of this application for the business.",
-        "type": "string",
-        "enum": [
-          "Mission critical",
-          "Business critical",
-          "Business operational",
-          "Administrative service"
-        ],
-        "icon": "DefaultProperty"
-      },
-      "business_confidentiality": {
-        "title": "Business Confidentiality",
-        "type": "string",
-        "icon": "DefaultProperty"
-      },
-      "business_integrity": {
-        "title": "Business Integrity",
-        "type": "string",
-        "icon": "DefaultProperty"
-      },
-      "enterprise_architect": {
-        "title": "Enterprise Architect",
-        "icon": "DefaultProperty",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "format": "user"
-        }
-      },
-      "application_architect": {
-        "title": "Application Architect",
-        "icon": "DefaultProperty",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "format": "user"
-        }
-      },
-      "business_owner": {
-        "title": "Business Owner",
-        "icon": "DefaultProperty",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "format": "user"
-        }
-      }
-    },
-    "required": []
-  },
-  "mirrorProperties": {},
-  "calculationProperties": {
-    "leanix_url": {
-      "title": "LeanIX URL",
-      "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/Application/\" + .identifier",
-      "type": "string",
-      "format": "url",
-      "colors": {
-        "itemsType": "string"
-      }
-    }
-  },
-  "relations": {
-    "consumes": {
-      "title": "Consumes",
-      "target": "interface",
-      "required": false,
-      "many": true
-    },
-    "provides": {
-      "title": "Provides",
-      "target": "interface",
-      "required": false,
-      "many": true
-    }
-  }
-},
-  {
-  "identifier": "component",
-  "description": "A generic component (micro-service, framework, etc.) that is used for implementing a software system.",
-  "title": "Component",
-  "icon": "Microservice",
-  "schema": {
-    "properties": {
-      "alias": {
-        "title": "Alias",
-        "type": "string"
-      },
-      "description": {
-        "title": "Description",
-        "type": "string",
-        "format": "markdown"
-      },
-      "incident_manager": {
-        "icon": "DefaultProperty",
-        "title": "Incident Manager",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "format": "user"
-        }
-      },
-      "component_mentor": {
-        "title": "Component Mentor",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "format": "user"
-        }
-      },
-      "lead_component_mentor": {
-        "title": "Lead Component Mentor",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "format": "user"
-        }
-      },
-      "administrator": {
-        "title": "Administrator",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "format": "user"
+          "format": "markdown"
         },
-        "icon": "DefaultProperty"
-      },
-      "documentation": {
-        "title": "Documentation",
-        "type": "array",
-        "items": {
+        "lifecycle_status": {
+          "title": "Lifecycle Status",
           "type": "string",
-          "format": "url"
+          "enum": [
+            "plan",
+            "phaseIn",
+            "active",
+            "phaseOut",
+            "endOfLife"
+          ]
+        },
+        "lifecycle_date": {
+          "title": "Lifecycle Date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "lifecycle_history": {
+          "title": "Lifecycle History",
+          "type": "object"
+        },
+        "data_classification": {
+          "title": "Data Classification",
+          "type": "string"
         }
       },
-      "source_repository": {
-        "title": "Source Repository",
-        "type": "array",
-        "items": {
+      "required": []
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {},
+    "relations": {}
+  },
+  {
+    "identifier": "interface",
+    "title": "Interface",
+    "icon": "Microservice",
+    "schema": {
+      "properties": {
+        "description": {
+          "title": "Description",
           "type": "string",
-          "format": "url"
+          "format": "markdown"
+        },
+        "lifecycle_status": {
+          "title": "Lifecycle Status",
+          "type": "string",
+          "enum": [
+            "plan",
+            "phaseIn",
+            "active",
+            "phaseOut",
+            "endOfLife"
+          ]
+        },
+        "lifecycle_date": {
+          "title": "Lifecycle Date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "lifecycle_history": {
+          "title": "Lifecycle History",
+          "type": "object"
+        },
+        "data_flow_direction": {
+          "title": "Data Flow Direction",
+          "type": "string",
+          "enum": [
+            "incoming",
+            "outgoing",
+            "biDirectional"
+          ]
+        },
+        "type": {
+          "title": "Type",
+          "type": "string",
+          "enum": [
+            "synchronous",
+            "asynchronous",
+            "batch"
+          ]
+        },
+        "frequency": {
+          "title": "Frequency",
+          "type": "string",
+          "enum": [
+            "onDemand",
+            "realtime",
+            "scheduled"
+          ]
         }
       },
-      "type": {
-        "title": "Type",
-        "type": "string",
-        "enum": [
-          "3rd. party",
-          "Internal"
-        ]
-      },
-
-      "category": {
-        "title": "Category",
-        "type": "string",
-        "enum": [
-          "service",
-          "hardware",
-          "software"
-        ]
-      },
-      "lifecycle_status": {
-        "title": "Lifecycle Status",
-        "type": "string",
-        "enum": [
-          "plan",
-          "phaseIn",
-          "active",
-          "phaseOut",
-          "endOfLife"
-        ]
-      },
-      "lifecycle_date": {
-        "title": "Lifecycle Date",
-        "type": "string",
-        "format": "date-time"
-      },
-      "lifecycle_history": {
-        "title": "Lifecycle History",
-        "type": "object"
-      },
-      "technical_fit": {
-        "title": "Technical Fit",
-        "type": "string",
-        "enum": [
-          "fullyAppropriate",
-          "unreasonable",
-          "adequate",
-          "inappropriate"
-        ]
-      },
-      "internal": {
-        "title": "Internal",
-        "type": "boolean"
-      }
+      "required": []
     },
-    "required": []
-  },
-  "mirrorProperties": {
-    "application_architect": {
-      "path": "system.application_architect"
-    }
-  },
-  "calculationProperties": {
-    "leanix_url": {
-      "title": "LeanIX URL",
-      "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/ITComponent/\" + .identifier",
-      "type": "string",
-      "format": "url",
-      "colors": {
-        "itemsType": "string"
+    "mirrorProperties": {},
+    "calculationProperties": {},
+    "relations": {
+      "data_objects": {
+        "title": "Data Objects",
+        "target": "data_objects",
+        "required": false,
+        "many": true
       }
     }
   },
-  "relations": {
-    "provides": {
-      "title": "Provides",
-      "target": "component",
-      "required": false,
-      "many": true
+  {
+    "identifier": "resource",
+    "title": "Resource",
+    "icon": "Microservice",
+    "schema": {
+      "properties": {
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "format": "markdown"
+        },
+        "lifecycle_status": {
+          "title": "Lifecycle Status",
+          "type": "string",
+          "enum": [
+            "plan",
+            "phaseIn",
+            "active",
+            "phaseOut",
+            "endOfLife"
+          ]
+        },
+        "lifecycle_date": {
+          "type": "string",
+          "title": "Lifecycle Date",
+          "format": "date-time"
+        },
+        "lifecycle_history": {
+          "title": "Lifecycle History",
+          "type": "object"
+        }
+      },
+      "required": []
     },
-    "resource": {
-      "title": "Resource",
-      "target": "resource",
-      "required": false,
-      "many": true
-    },
-    "system": {
-      "title": "System",
-      "target": "system",
-      "required": false,
-      "many": false
-    },
-    "requires": {
-      "title": "Requires",
-      "target": "component",
-      "required": false,
-      "many": true
-    },
-    "consumes": {
-      "title": "Consumes",
-      "target": "component",
-      "required": false,
-      "many": true
+    "mirrorProperties": {},
+    "calculationProperties": {},
+    "relations": {
+      "parent": {
+        "title": "Parent",
+        "target": "resource",
+        "required": false,
+        "many": true
+      }
     }
-  }
-},
+  },
+  {
+    "identifier": "system",
+    "description": "This represents an application in LeanIX EAM.",
+    "title": "System",
+    "icon": "Service",
+    "schema": {
+      "properties": {
+        "alias": {
+          "title": "Alias",
+          "description": "Abbreviated name of a system.",
+          "type": "string",
+          "icon": "DefaultProperty"
+        },
+        "description": {
+          "icon": "DefaultProperty",
+          "title": "Description",
+          "description": "Brief description of a system. ",
+          "type": "string",
+          "format": "markdown"
+        },
+        "documentation": {
+          "title": "Documentation",
+          "description": "Links toward various external documentations including diagrams.",
+          "icon": "Link",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "url"
+          }
+        },
+        "business_criticality": {
+          "title": "Business Criticality",
+          "description": "Score about the importance of this application for the business.",
+          "type": "string",
+          "enum": [
+            "Mission critical",
+            "Business critical",
+            "Business operational",
+            "Administrative service"
+          ],
+          "icon": "DefaultProperty"
+        },
+        "business_criticality_description": {
+          "title": "Business Criticality Description",
+          "description": "Free form description of the business criticality.",
+          "type": "string",
+          "format": "markdown"
+        },
+        "business_confidentiality": {
+          "title": "Business Confidentiality",
+          "type": "string",
+          "icon": "DefaultProperty"
+        },
+        "business_integrity": {
+          "title": "Business Integrity",
+          "type": "string",
+          "icon": "DefaultProperty"
+        },
+        "lifecycle_status": {
+          "title": "Lifecycle Status",
+          "type": "string",
+          "enum": [
+            "plan",
+            "phaseIn",
+            "active",
+            "phaseOut",
+            "endOfLife"
+          ]
+        },
+        "lifecycle_date": {
+          "title": "Lifecycle Date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "lifecycle_history": {
+          "title": "Lifecycle History",
+          "type": "object"
+        },
+        "technical_fit": {
+          "title": "Technical Fit",
+          "type": "string",
+          "enum": [
+            "fullyAppropriate",
+            "unreasonable",
+            "adequate",
+            "inappropriate",
+            "perfect"
+          ]
+        },
+        "GDPR_processing_purpose": {
+          "title": "GDPR Processing Purpose",
+          "type": "array"
+        },
+        "GDPR_legal_basis": {
+          "type": "string",
+          "title": "GDPR Legal Basis"
+        },
+        "functional_fit": {
+          "title": "Functional Fit",
+          "type": "string",
+          "enum": [
+            "fullyAppropriate",
+            "unreasonable",
+            "adequate",
+            "inappropriate",
+            "perfect"
+          ]
+        },
+        "functional_fit_description": {
+          "title": "Functional Fit Description",
+          "type": "string",
+          "format": "markdown"
+        },
+        "enterprise_architect": {
+          "title": "Enterprise Architect",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "application_architect": {
+          "title": "Application Architect",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "business_owner": {
+          "title": "Business Owner",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        }
+      },
+      "required": []
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/Application/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
+      }
+    },
+    "relations": {
+      "consumes": {
+        "title": "Consumes",
+        "target": "interface",
+        "required": false,
+        "many": true
+      },
+      "provides": {
+        "title": "Provides",
+        "target": "interface",
+        "required": false,
+        "many": true
+      }
+    }
+  },
+  {
+    "identifier": "component",
+    "description": "A generic component (micro-service, framework, etc.) that is used for implementing a software system.",
+    "title": "Component",
+    "icon": "Microservice",
+    "schema": {
+      "properties": {
+        "alias": {
+          "title": "Alias",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string",
+          "format": "markdown"
+        },
+        "incident_manager": {
+          "icon": "DefaultProperty",
+          "title": "Incident Manager",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "component_mentor": {
+          "title": "Component Mentor",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "lead_component_mentor": {
+          "title": "Lead Component Mentor",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "administrator": {
+          "title": "Administrator",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          },
+          "icon": "DefaultProperty"
+        },
+        "documentation": {
+          "title": "Documentation",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "url"
+          }
+        },
+        "source_repository": {
+          "title": "Source Repository",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "url"
+          }
+        },
+        "type": {
+          "title": "Type",
+          "type": "string",
+          "enum": [
+            "3rd. party",
+            "Internal"
+          ]
+        },
+        "category": {
+          "title": "Category",
+          "type": "string",
+          "enum": [
+            "service",
+            "hardware",
+            "software"
+          ]
+        },
+        "lifecycle_status": {
+          "title": "Lifecycle Status",
+          "type": "string",
+          "enum": [
+            "plan",
+            "phaseIn",
+            "active",
+            "phaseOut",
+            "endOfLife"
+          ]
+        },
+        "lifecycle_date": {
+          "title": "Lifecycle Date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "lifecycle_history": {
+          "title": "Lifecycle History",
+          "type": "object"
+        },
+        "technical_fit": {
+          "title": "Technical Fit",
+          "type": "string",
+          "enum": [
+            "fullyAppropriate",
+            "unreasonable",
+            "adequate",
+            "inappropriate",
+            "perfect"
+          ]
+        },
+        "internal": {
+          "title": "Internal",
+          "type": "boolean"
+        }
+      },
+      "required": []
+    },
+    "mirrorProperties": {
+      "application_architect": {
+        "path": "system.application_architect"
+      }
+    },
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/ITComponent/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
+      }
+    },
+    "relations": {
+      "provides": {
+        "title": "Provides",
+        "target": "component",
+        "required": false,
+        "many": true
+      },
+      "successors": {
+        "title": "Successors",
+        "target": "component",
+        "required": false,
+        "many": true
+      },
+      "resources": {
+        "title": "Resource",
+        "target": "resource",
+        "required": false,
+        "many": true
+      },
+      "system": {
+        "title": "System",
+        "target": "system",
+        "required": false,
+        "many": false
+      },
+      "requires": {
+        "title": "Requires",
+        "target": "component",
+        "required": false,
+        "many": true
+      },
+      "consumes": {
+        "title": "Consumes",
+        "target": "interface",
+        "required": false,
+        "many": true
+      }
+    }
+  },
   {
     "identifier": "provider",
     "title": "Provider",
@@ -539,62 +606,62 @@
     "relations": {}
   },
   {
-  "identifier": "business_service",
-  "description": "A high level business service delivered by diverse set of software systems.",
-  "title": "Business Service",
-  "icon": "Service",
-  "schema": {
-    "properties": {
-      "solution_architect": {
-        "title": "Solution Architect",
-        "description": "The solution architect responsible for a business service.",
-        "icon": "DefaultProperty",
-        "type": "array",
-        "items": {
+    "identifier": "business_service",
+    "description": "A high level business service delivered by diverse set of software systems.",
+    "title": "Business Service",
+    "icon": "Service",
+    "schema": {
+      "properties": {
+        "solution_architect": {
+          "title": "Solution Architect",
+          "description": "The solution architect responsible for a business service.",
+          "icon": "DefaultProperty",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "user"
+          }
+        },
+        "description": {
+          "title": "Description",
           "type": "string",
-          "format": "user"
+          "format": "markdown",
+          "icon": "DefaultProperty"
         }
       },
-      "description": {
-        "title": "Description",
+      "required": []
+    },
+    "mirrorProperties": {},
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/BusinessCapability/\" + .identifier",
         "type": "string",
-        "format": "markdown",
-        "icon": "DefaultProperty"
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
       }
     },
-    "required": []
-  },
-  "mirrorProperties": {},
-  "calculationProperties": {
-    "leanix_url": {
-      "title": "LeanIX URL",
-      "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/BusinessCapability/\" + .identifier",
-      "type": "string",
-      "format": "url",
-      "colors": {
-        "itemsType": "string"
+    "relations": {
+      "product": {
+        "title": "product",
+        "target": "product",
+        "required": false,
+        "many": true
+      },
+      "system": {
+        "title": "System",
+        "target": "system",
+        "required": false,
+        "many": false
+      },
+      "domain": {
+        "title": "domain",
+        "target": "domain",
+        "required": false,
+        "many": false
       }
-    }
-  },
-  "relations": {
-    "product": {
-      "title": "product",
-      "target": "product",
-      "required": false,
-      "many": true
-    },
-    "system": {
-      "title": "System",
-      "target": "system",
-      "required": false,
-      "many": false
-    },
-    "domain": {
-      "title": "domain",
-      "target": "domain",
-      "required": false,
-      "many": false
     }
   }
-}
 ]
