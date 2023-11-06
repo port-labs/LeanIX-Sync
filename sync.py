@@ -120,7 +120,6 @@ def paginate_query(webhook_url: str, query: str):
 
         more = data['pageInfo']['hasNextPage']
         end_cursor = data['pageInfo']['endCursor']
-
         for edge in data['edges']:
             tasks.append(ingest(semaphore, client, webhook_url, edge['node']))
         page += 1
