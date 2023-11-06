@@ -111,12 +111,11 @@
           "internal": ".body.tags | any(.name == \"Internal\")"
         },
         "relations": {
-          "consumes": ".body.relITComponentToInterface.edges | map(.node.factSheet.id | select(. != null))",
-          "provides": ".body.relITComponentToProvider.edges | map(.node.factSheet.id | select(. != null))",
+          "consumes": ".body.relToRequires.edges | map(.node.factSheet | select(.id != null and .type == \"Interface\") | .id)",
+          "provides": ".body.relITComponentToInterface.edges | map(.node.factSheet.id | select(. != null))",
           "successors": ".body.relToSuccessor.edges | map(.node.factSheet.id | select(. != null))",
           "resources": ".body.relITComponentToTechnologyStack.edges | map(.node.factSheet.id | select(. != null))",
-          "system": ".body.relITComponentToApplication.edges | map(.node.factSheet.id | select(. != null))[0]",
-          "requires": ".body.relToRequires.edges | map(.node.factSheet | select(.id != null and .type == \"ITComponent\") | .id)"
+          "system": ".body.relITComponentToApplication.edges | map(.node.factSheet.id | select(. != null))[0]"
         }
       }
     },

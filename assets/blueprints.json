@@ -38,7 +38,17 @@
       "required": []
     },
     "mirrorProperties": {},
-    "calculationProperties": {},
+    "calculationProperties": {
+        "leanix_url": {
+          "title": "LeanIX URL",
+          "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/DataObject/\" + .identifier",
+          "type": "string",
+          "format": "url",
+          "colors": {
+            "itemsType": "string"
+          }
+        }
+      },
     "relations": {}
   },
   {
@@ -103,7 +113,17 @@
       "required": []
     },
     "mirrorProperties": {},
-    "calculationProperties": {},
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/Interface/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
+      }
+    },
     "relations": {
       "data_objects": {
         "title": "Data Objects",
@@ -148,7 +168,17 @@
       "required": []
     },
     "mirrorProperties": {},
-    "calculationProperties": {},
+    "calculationProperties": {
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/TechnicalStack/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
+        }
+      }
+    },
     "relations": {
       "parent": {
         "title": "Parent",
@@ -184,8 +214,7 @@
           "icon": "Link",
           "type": "array",
           "items": {
-            "type": "string",
-            "format": "url"
+            "type": "string"
           }
         },
         "business_criticality": {
@@ -263,7 +292,9 @@
             "unreasonable",
             "adequate",
             "inappropriate",
-            "perfect"
+            "perfect",
+            "insufficient",
+            "appropriate"
           ]
         },
         "functional_fit_description": {
@@ -305,7 +336,7 @@
     "calculationProperties": {
       "leanix_url": {
         "title": "LeanIX URL",
-        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/Application/\" + .identifier",
+        "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/Application/\" + .identifier",
         "type": "string",
         "format": "url",
         "colors": {
@@ -382,16 +413,14 @@
           "title": "Documentation",
           "type": "array",
           "items": {
-            "type": "string",
-            "format": "url"
+            "type": "string"
           }
         },
         "source_repository": {
           "title": "Source Repository",
           "type": "array",
           "items": {
-            "type": "string",
-            "format": "url"
+            "type": "string"
           }
         },
         "type": {
@@ -457,7 +486,7 @@
     "calculationProperties": {
       "leanix_url": {
         "title": "LeanIX URL",
-        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/ITComponent/\" + .identifier",
+        "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/ITComponent/\" + .identifier",
         "type": "string",
         "format": "url",
         "colors": {
@@ -468,7 +497,7 @@
     "relations": {
       "provides": {
         "title": "Provides",
-        "target": "component",
+        "target": "interface",
         "required": false,
         "many": true
       },
@@ -490,12 +519,6 @@
         "required": false,
         "many": false
       },
-      "requires": {
-        "title": "Requires",
-        "target": "component",
-        "required": false,
-        "many": true
-      },
       "consumes": {
         "title": "Consumes",
         "target": "interface",
@@ -515,7 +538,7 @@
     "calculationProperties": {
       "leanix_url": {
         "title": "LeanIX URL",
-        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/Provider/\" + .identifier",
+        "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/Provider/\" + .identifier",
         "type": "string",
         "format": "url",
         "colors": {
@@ -563,7 +586,7 @@
     "calculationProperties": {
       "leanix_url": {
         "title": "LeanIX URL",
-        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/BusinessCapability/\" + .identifier",
+        "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/BusinessCapability/\" + .identifier",
         "type": "string",
         "format": "url",
         "colors": {
@@ -635,7 +658,7 @@
     "calculationProperties": {
       "leanix_url": {
         "title": "LeanIX URL",
-        "calculation": "\"https://libertexgroup.leanix.net/libertex/factsheet/BusinessCapability/\" + .identifier",
+        "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/BusinessCapability/\" + .identifier",
         "type": "string",
         "format": "url",
         "colors": {

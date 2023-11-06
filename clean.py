@@ -94,7 +94,10 @@ blueprints = ["component",
               "provider",
               "domain",
               "product",
+              "data_objects",
+              "resource",
               "business_service",
+              "interface",
               "system"]
 
 if DELETE_ENTITIES_FLAG:
