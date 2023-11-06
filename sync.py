@@ -8,9 +8,6 @@ from tqdm.asyncio import tqdm_asyncio
 import os
 
 
-# export PORT_CLIENT_ID=2gA7Yt4tsfH9RwRnbmp3ElzArMjNPmJr
-# export PORT_CLIENT_SECRET=TJO25UQCp1k4UJBZP6pHw5zGQ1ncJ4809A9GdPy2CE4Ne4ec3Ygj4BglmwBYnmJU
-# export LEANIX_SECRET=tHPdXOwJdrEwOkGcW5cwwGyUDTT6GTehtXwpPHRc
 
 port_client_id = os.environ["PORT_CLIENT_ID"]
 port_client_secret = os.environ["PORT_CLIENT_SECRET"]
