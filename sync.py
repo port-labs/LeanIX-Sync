@@ -7,6 +7,8 @@ from assets.queries import queries
 from tqdm.asyncio import tqdm_asyncio
 import os
 
+
+
 port_client_id = os.environ["PORT_CLIENT_ID"]
 port_client_secret = os.environ["PORT_CLIENT_SECRET"]
 
@@ -82,7 +84,8 @@ def get_or_create_webhook():
 
 async def ingest(semaphore, client, webhook_url: str, data):
     async with semaphore:
-        await client.post(webhook_url, json=data)
+        res = await client.post(webhook_url, json=data)
+        res.raise_for_status()
         # Throttling the requests
         await asyncio.sleep(0.3)
 
@@ -95,7 +98,7 @@ def paginate_query(webhook_url: str, query: str):
     page_size = 100
     end_cursor = ""
     more = True
-    client = httpx.AsyncClient(timeout=100)
+    client = httpx.AsyncClient(timeout=160)
     tasks = []
     page = 1
 
@@ -114,7 +117,6 @@ def paginate_query(webhook_url: str, query: str):
 
         more = data['pageInfo']['hasNextPage']
         end_cursor = data['pageInfo']['endCursor']
-
         for edge in data['edges']:
             tasks.append(ingest(semaphore, client, webhook_url, edge['node']))
         page += 1

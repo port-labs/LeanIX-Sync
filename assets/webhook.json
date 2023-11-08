@@ -13,7 +13,7 @@
         "properties": {
           "description": ".body.description",
           "lifecycle_status": ".body.lifecycle.phases | last | .phase",
-          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate | strptime(\"%Y-%m-%d\") | mktime | strftime(\"%Y-%m-%dT%H:%M:%SZ\")",
           "lifecycle_history": ".body.lifecycle"
         }
       }
@@ -27,7 +27,7 @@
         "properties": {
           "description": ".body.description",
           "lifecycle_status": ".body.lifecycle.phases | last | .phase",
-          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate | strptime(\"%Y-%m-%d\") | mktime | strftime(\"%Y-%m-%dT%H:%M:%SZ\")",
           "lifecycle_history": ".body.lifecycle",
           "data_flow_direction": ".body.dataFlowDirection",
           "type": ".body.interfaceType",
@@ -47,7 +47,7 @@
         "properties": {
           "description": ".body.description",
           "lifecycle_status": ".body.lifecycle.phases | last | .phase",
-          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate | strptime(\"%Y-%m-%d\") | mktime | strftime(\"%Y-%m-%dT%H:%M:%SZ\")",
           "lifecycle_history": ".body.lifecycle"
         },
         "relations": {
@@ -73,7 +73,7 @@
           "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
           "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Business Owner\") | .node.user.email)",
           "lifecycle_status": ".body.lifecycle.phases | last | .phase",
-          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate | strptime(\"%Y-%m-%d\") | mktime | strftime(\"%Y-%m-%dT%H:%M:%SZ\")",
           "lifecycle_history": ".body.lifecycle",
           "technical_fit": ".body.technicalSuitability",
           "functional_fit": ".body.functionalSuitability",
@@ -105,18 +105,17 @@
           "type": ".body.tags | if any(.name == \"Internal\") then \"Internal\" else \"3rd. party\"",
           "category": ".body.category",
           "lifecycle_status": ".body.lifecycle.phases | last | .phase",
-          "lifecycle_date": ".body.lifecycle.phases | last | .startDate",
+          "lifecycle_date": ".body.lifecycle.phases | last | .startDate | strptime(\"%Y-%m-%d\") | mktime | strftime(\"%Y-%m-%dT%H:%M:%SZ\")",
           "lifecycle_history": ".body.lifecycle",
           "technical_fit": ".body.technicalSuitability",
           "internal": ".body.tags | any(.name == \"Internal\")"
         },
         "relations": {
-          "consumes": ".body.relITComponentToInterface.edges | map(.node.factSheet.id | select(. != null))",
-          "provides": ".body.relITComponentToProvider.edges | map(.node.factSheet.id | select(. != null))",
+          "consumes": ".body.relToRequires.edges | map(.node.factSheet | select(.id != null and .type == \"Interface\") | .id)",
+          "provides": ".body.relITComponentToInterface.edges | map(.node.factSheet.id | select(. != null))",
           "successors": ".body.relToSuccessor.edges | map(.node.factSheet.id | select(. != null))",
           "resources": ".body.relITComponentToTechnologyStack.edges | map(.node.factSheet.id | select(. != null))",
-          "system": ".body.relITComponentToApplication.edges | map(.node.factSheet.id | select(. != null))[0]",
-          "requires": ".body.relToRequires.edges | map(.node.factSheet | select(.id != null and .type == \"ITComponent\") | .id)"
+          "system": ".body.relITComponentToApplication.edges | map(.node.factSheet.id | select(. != null))[0]"
         }
       }
     },
