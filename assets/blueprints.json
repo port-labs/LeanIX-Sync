@@ -251,6 +251,13 @@
           "type": "string",
           "icon": "DefaultProperty"
         },
+        "business_unit": {
+          "title": "Business Unit",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "lifecycle_status": {
           "title": "Lifecycle Status",
           "type": "string",

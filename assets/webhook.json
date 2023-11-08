@@ -70,6 +70,7 @@
           "business_criticality_description": ".body.businessCriticalityDescription",
           "business_confidentiality": ".body.BusinessConfidentialityCriticality",
           "business_integrity": ".body.BusinessIntegrityConfidentiality",
+          "business_unit": ".body.Broker",
           "enterprise_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Enterprise Architect\") | .node.user.email)",
           "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
           "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Business Owner\") | .node.user.email)",
