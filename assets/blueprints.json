@@ -32,23 +32,29 @@
         },
         "data_classification": {
           "title": "Data Classification",
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "restricted",
+            "confidential",
+            "sensitive",
+            "public"
+          ]
         }
       },
       "required": []
     },
     "mirrorProperties": {},
     "calculationProperties": {
-        "leanix_url": {
-          "title": "LeanIX URL",
-          "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/DataObject/\" + .identifier",
-          "type": "string",
-          "format": "url",
-          "colors": {
-            "itemsType": "string"
-          }
+      "leanix_url": {
+        "title": "LeanIX URL",
+        "calculation": "\"https://libertexgroup.leanix.net/Libertex/factsheet/DataObject/\" + .identifier",
+        "type": "string",
+        "format": "url",
+        "colors": {
+          "itemsType": "string"
         }
-      },
+      }
+    },
     "relations": {}
   },
   {

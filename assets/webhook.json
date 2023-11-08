@@ -14,7 +14,8 @@
           "description": ".body.description",
           "lifecycle_status": ".body.lifecycle.phases | last | .phase",
           "lifecycle_date": ".body.lifecycle.phases | last | .startDate | strptime(\"%Y-%m-%d\") | mktime | strftime(\"%Y-%m-%dT%H:%M:%SZ\")",
-          "lifecycle_history": ".body.lifecycle"
+          "lifecycle_history": ".body.lifecycle",
+          "data_classification": ".body.dataClassification"
         }
       }
     },
@@ -34,7 +35,7 @@
           "frequency": ".body.frequency | if . != \"onDemand\" and . != \"realTime\" then \"scheduled\" else . end"
         },
         "relations": {
-          "data_objects": ".body.relInterfaceToDataObject.edges | map(.node.factSheet.id | select(. != null))[0]"
+          "data_objects": ".body.relInterfaceToDataObject.edges | map(.node.factSheet.id | select(. != null))"
         }
       }
     },

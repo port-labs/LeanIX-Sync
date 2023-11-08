@@ -24,7 +24,7 @@ queries = [
                                 startDate
                             }
                         }
-                        dataClassificationDescription
+                        dataClassification
                         id
                     }
                 }
@@ -32,7 +32,6 @@ queries = [
         }
     }
     """,
-
     # APPLICATION_QUERY
     """
     {
@@ -220,7 +219,6 @@ queries = [
       }
     }
     """,
-
     # INTERFACE_QUERY
     """
     query AllFactSheets {
@@ -265,7 +263,6 @@ queries = [
     }
 }
     """,
-
     # PROVIDER_QUERY
     """
     {
@@ -302,7 +299,6 @@ queries = [
       }
     }
     """,
-
     # RESOURCE_QUERY
     """
     query AllFactSheets {
@@ -344,7 +340,6 @@ queries = [
     }
 }
 """,
-
     # COMPONENT_QUERY
     """
 {
@@ -482,7 +477,6 @@ queries = [
     }
 }
     """,
-
     # BUSINESS_CAPABILITY
     """
     {
@@ -559,5 +553,5 @@ queries = [
         totalCount
       }
     }
-    """
+    """,
 ]
