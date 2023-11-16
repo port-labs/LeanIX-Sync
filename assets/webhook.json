@@ -73,7 +73,7 @@
           "business_unit": ".body.Broker",
           "enterprise_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Enterprise Architect\") | .node.user.email)",
           "application_architect": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Application Architect\") | .node.user.email)",
-          "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Business Owner\") | .node.user.email)",
+          "business_owner": ".body.subscriptions.edges | map(select(.node.roles[] | .name == \"Product Manager\" or .name == \"Product Manager representative\") | .node.user.email)",
           "lifecycle_status": ".body.lifecycle.phases | last | .phase",
           "lifecycle_date": ".body.lifecycle.phases | last | .startDate | strptime(\"%Y-%m-%d\") | mktime | strftime(\"%Y-%m-%dT%H:%M:%SZ\")",
           "lifecycle_history": ".body.lifecycle",
